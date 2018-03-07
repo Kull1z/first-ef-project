@@ -1,0 +1,6 @@
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\bin\Debug\MovieApp.Domain.dll
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\bin\Debug\MovieApp.Domain.pdb
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\obj\Debug\MovieApp.Domain.csprojResolveAssemblyReference.cache
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\obj\Debug\MovieApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\obj\Debug\MovieApp.Domain.dll
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Domain\obj\Debug\MovieApp.Domain.pdb
