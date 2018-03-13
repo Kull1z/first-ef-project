@@ -27,15 +27,11 @@ namespace MovieApp.Data.Migrations
 
                     b.Property<DateTime>("Birthday");
 
-                    b.Property<int?>("MovieId");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("Nationality");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.ToTable("Actors");
                 });
@@ -54,6 +50,19 @@ namespace MovieApp.Data.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("MovieApp.Domain.MovieActor", b =>
+                {
+                    b.Property<int>("ActorId");
+
+                    b.Property<int>("MovieId");
+
+                    b.HasKey("ActorId", "MovieId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieActor");
+                });
+
             modelBuilder.Entity("MovieApp.Domain.Quote", b =>
                 {
                     b.Property<int>("Id")
@@ -70,11 +79,36 @@ namespace MovieApp.Data.Migrations
                     b.ToTable("Quotes");
                 });
 
-            modelBuilder.Entity("MovieApp.Domain.Actor", b =>
+            modelBuilder.Entity("MovieApp.Domain.TomatoRating", b =>
                 {
-                    b.HasOne("MovieApp.Domain.Movie")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AudienceScore");
+
+                    b.Property<int>("MovieId");
+
+                    b.Property<int>("TomatoMeter");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId")
+                        .IsUnique();
+
+                    b.ToTable("TomatoRatings");
+                });
+
+            modelBuilder.Entity("MovieApp.Domain.MovieActor", b =>
+                {
+                    b.HasOne("MovieApp.Domain.Actor", "Actor")
+                        .WithMany("Movies")
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MovieApp.Domain.Movie", "Movie")
                         .WithMany("Actors")
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MovieApp.Domain.Quote", b =>
@@ -82,6 +116,14 @@ namespace MovieApp.Data.Migrations
                     b.HasOne("MovieApp.Domain.Actor", "TheActor")
                         .WithMany("Quotes")
                         .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MovieApp.Domain.TomatoRating", b =>
+                {
+                    b.HasOne("MovieApp.Domain.Movie", "Movie")
+                        .WithOne("Tomato")
+                        .HasForeignKey("MovieApp.Domain.TomatoRating", "MovieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

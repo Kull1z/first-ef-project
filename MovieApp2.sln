@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApp.Domain", "MovieApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieApp.Data", "MovieApp.Data\MovieApp.Data.csproj", "{6710B25B-F8BE-41AF-82E0-78ED4A5BF98F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{42EF7CBF-0E74-4586-96E6-CA41F839E373}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6710B25B-F8BE-41AF-82E0-78ED4A5BF98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6710B25B-F8BE-41AF-82E0-78ED4A5BF98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6710B25B-F8BE-41AF-82E0-78ED4A5BF98F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EF7CBF-0E74-4586-96E6-CA41F839E373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EF7CBF-0E74-4586-96E6-CA41F839E373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EF7CBF-0E74-4586-96E6-CA41F839E373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EF7CBF-0E74-4586-96E6-CA41F839E373}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

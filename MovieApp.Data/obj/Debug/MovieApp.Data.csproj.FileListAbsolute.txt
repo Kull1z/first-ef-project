@@ -140,3 +140,5 @@ C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\obj\Debug\MovieApp.Data.cspro
 C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\obj\Debug\MovieApp.Data.csproj.CoreCompileInputs.cache
 C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\obj\Debug\MovieApp.Data.dll
 C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\obj\Debug\MovieApp.Data.pdb
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\bin\Debug\Microsoft.Extensions.Logging.Console.dll
+C:\Users\joaki\source\plus\MovieApp2\MovieApp.Data\bin\Debug\Microsoft.Extensions.Logging.Console.xml

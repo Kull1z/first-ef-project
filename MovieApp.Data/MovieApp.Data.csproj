@@ -63,6 +63,9 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Options, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Options.2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
@@ -105,6 +108,18 @@
     <Compile Include="Migrations\20180306114557_init.cs" />
     <Compile Include="Migrations\20180306114557_init.designer.cs">
       <DependentUpon>20180306114557_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180308085006_MovieActor.cs" />
+    <Compile Include="Migrations\20180308085006_MovieActor.designer.cs">
+      <DependentUpon>20180308085006_MovieActor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180308092824_TomatoRating.cs" />
+    <Compile Include="Migrations\20180308092824_TomatoRating.designer.cs">
+      <DependentUpon>20180308092824_TomatoRating.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180313104224_AddStoredProc.cs" />
+    <Compile Include="Migrations\20180313104224_AddStoredProc.designer.cs">
+      <DependentUpon>20180313104224_AddStoredProc.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MoviesContextModelSnapshot.cs" />
     <Compile Include="MoviesContext.cs" />

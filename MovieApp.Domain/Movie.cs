@@ -7,11 +7,12 @@ namespace MovieApp.Domain
     {
         public Movie()
         {
-            Actors = new List<Actor>();
+            Actors = new List<MovieActor>();
         }
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public List<Actor> Actors { get; set; }
+        public List<MovieActor> Actors { get; set; }
+        public TomatoRating Tomato { get; set; }
     }
 }
