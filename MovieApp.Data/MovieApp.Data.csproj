@@ -121,6 +121,10 @@
     <Compile Include="Migrations\20180313104224_AddStoredProc.designer.cs">
       <DependentUpon>20180313104224_AddStoredProc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180315100631_RenameTomtoRating.cs" />
+    <Compile Include="Migrations\20180315100631_RenameTomtoRating.designer.cs">
+      <DependentUpon>20180315100631_RenameTomtoRating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MoviesContextModelSnapshot.cs" />
     <Compile Include="MoviesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,9 +9,22 @@ namespace UI
 {
     class Program
     {
-        private static MoviesContext _context = new MoviesContext();
+       
         static void Main(string[] args)
         {
+            //Erat projekt skall:
+            //* Lägga till poster
+            //* Selektera poster på något villkor
+            //* Updatera poster
+            //* Radera poster
+
+            //* Med kod skapa 1-* och *-* relationer
+            //* Selektera poster med många til mångaberoende
+            //* Selektera poster med 1-* beroende
+            
+
+            //Bonus om ni vill, använd raw sql på något ställe
+
             //AddMovie();
             //AddMovies();
             //GetAllMovies();
@@ -24,138 +37,116 @@ namespace UI
             //DeleteManyDisconnected();
             //SelectRawSql();
             //SelectRawSqlWithOrderingAndFilter();
-            SelectUsingStoredProcedure();
+            //SingleObjectModifiaction.SelectUsingStoredProcedure();
+
+            //SingleObjectModifiaction.AddActors();
+            //AddActorsToMovie();
+            //DisplayMoviesEagerLoad();
+            //AddManyToManyObject();
+            //AddQuotesToActor();
+            //AddTomato();
+            //ProjectionLoading();
+            ProjectionLoading2();
         }
 
-        private static void SelectUsingStoredProcedure()
+        private static void ProjectionLoading2()
         {
-            string searchString = "hej";
-            var movies = _context.Movies.FromSql("EXEC FilterMovieByTitlePart {0}", searchString).ToList();
-            foreach(var movie in movies)
-            {
-                Console.WriteLine(movie.Title);
-            }
-        }
-
-        private static void SelectRawSqlWithOrderingAndFilter()
-        {
-            var movies = _context.Movies.FromSql("SELECT * FROM Movies")
-                .OrderByDescending(m => m.ReleaseDate)
-                .Where(m => m.Title.StartsWith("Hej"))
+            var context = new MoviesContext();
+            var projectedActor = context.Actors.Select(a =>
+                new { a.Name, a.Nationality })
                 .ToList();
-            foreach (var movie in movies)
+
+            projectedActor.ForEach(pa => Console.WriteLine(pa.Name + " is " + pa.Nationality));
+        }
+
+        private static void ProjectionLoading()
+        {
+            var context = new MoviesContext();
+            var projectedActor = context.Actors.Select(a =>
+                new { a.Name, QuoteCount = a.Quotes.Count })
+                .Where(a => a.QuoteCount > 0)
+                .ToList();
+
+            projectedActor.ForEach(pa => Console.WriteLine(pa.Name + " has " + pa.QuoteCount + " quotes"));
+        }
+
+        private static void AddTomato()
+        {
+            var context = new MoviesContext();
+            var movie = context.Movies.Find(6);
+            var tomato = new TomatoRating { MovieId = movie.Id, TomatoMeter = 74, AudienceScore = 95 };
+            context.Add(tomato);
+            context.SaveChanges();
+        }
+
+        private static void AddQuotesToActor()
+        {
+            var context = new MoviesContext();
+            var actor = context.Actors.FirstOrDefault(a => a.Name.StartsWith("Engelbert"));
+            if(null != actor)
             {
-                Console.WriteLine(movie.Title);
+                actor.Quotes.Add(new Quote { Text = "Please, release me, let me go" });
+                actor.Quotes.Add(new Quote { Text = "To waste our lives would be a sin" });
+                context.SaveChanges();
             }
         }
 
-        private static void SelectRawSql()
+        private static void AddManyToManyObject()
         {
-            string sql = "SELECT * FROM Movies";
-            var movies = _context.Movies.FromSql(sql).ToList();
+            var context = new MoviesContext();
+            var actor = new Actor { Name = "Engelbert Humperdinck", Birthday = new DateTime(1936, 5, 2), Nationality = "British" };
+            var movie = context.Movies.Find(6);
+            context.Add(actor);
+            context.Add(new MovieActor { Movie = movie, Actor = actor });
+            context.SaveChanges();
+        }
+
+        private static void DisplayMoviesEagerLoad()
+        {
+            var context = new MoviesContext();
+            var movies = context.Movies
+                .Include(m => m.Actors)
+                    .ThenInclude(ma => ma.Actor)
+                        .ThenInclude(a => a.Quotes)
+                .Include(m => m.Tomato)
+                .ToList();
+
+            Console.WriteLine("\n\n\n====================\n");
             foreach(var movie in movies)
             {
-                Console.WriteLine(movie.Title);
+                Console.Write(movie.Title);
+                if(null != movie.Tomato)
+                {
+                    Console.WriteLine(" => TM: " + movie.Tomato.TomatoMeter + " AC: " + movie.Tomato.AudienceScore);
+                }
+                else
+                {
+                    Console.WriteLine(" => Not Rated!");
+                }
+                foreach(var actor in movie.Actors)
+                {
+                    Console.WriteLine("\t" + actor.Actor.Name);
+                    foreach(var quote in actor.Actor.Quotes)
+                    {
+                        Console.WriteLine("\t\t" + quote.Text);
+                    }
+                }
             }
         }
 
-        private static void DeleteManyDisconnected()
+        public static void AddActorsToMovie()
         {
-            string titleStart = "Fint";
-            var movies = _context.Movies.Where(m => m.Title.StartsWith(titleStart)).ToList();
-
-            //Här tänker vi att vi inte längre har kvar orginal contexten
-            var newContext = new MoviesContext();
-            newContext.Movies.RemoveRange(movies);
-            newContext.SaveChanges();
-        }
-
-        private static void DeleteMany()
-        {
-            string titleStart = "En het";
-            var movies = _context.Movies.Where(m => m.Title.StartsWith(titleStart)).ToList();
-            _context.Movies.RemoveRange(movies);
-            _context.SaveChanges();
-        }
-
-        private static void DeleteOne()
-        {
-            var movie = _context.Movies.Find(3);
-           // var movie2 = new Movie { Id = 99, Title = "kjshdf", ReleaseDate = DateTime.Now};
-            _context.Movies.Remove(movie);
-            _context.SaveChanges();
-        }
-
-        private static void UpdateDisconnected()
-        {
-            var movie = _context.Movies.Find(3);
-            movie.ReleaseDate = new DateTime(1992, 10, 14);
-
-            //Här tänker vi att vi inte längre har kvar orginal contexten
-
-            var newContext = new MoviesContext();
-            newContext.Movies.Update(movie);
-            newContext.SaveChanges();
-
-        }
-
-        private static void Update()
-        {
-            string titleStart = "En het";
-            var movies = _context.Movies.Where(m => m.Title.StartsWith(titleStart)).ToList();
-            movies.ForEach(m => m.ReleaseDate = new DateTime(1983, 12, 24));
-            _context.Movies.Add(new Movie { Title = "Smart som får", ReleaseDate = DateTime.Now });
-            _context.SaveChanges();
-        }
-
-        private static void Find()
-        {
-            var movie1 = _context.Movies.FirstOrDefault(m => m.Id == 2);
-            var movie2 = _context.Movies.Find(2);
-            Console.WriteLine(movie1.Title);
-            Console.WriteLine(movie2.Title);
-        }
-
-        private static void GetFirst()
-        {
-            string titleStart = "Kul";
-            //var movie = (from m in _context.Movies where m.Title.StartsWith(titleStart) select m).FirstOrDefault();
-            var movie = _context.Movies.FirstOrDefault(m => m.Title.StartsWith("En het"));
-            Console.WriteLine(movie.Title);
-        }
-
-        private static void GetAllMovies()
-        {
-            var movies1 = _context.Movies.ToList();
-            //SELECT m.title FROM m movies
-            var movies2 = (from m in _context.Movies select m.Title).ToList();
-            var movies3 = _context.Movies.Where(m => m.Title.StartsWith("En het")).ToList();
-            string startTitle = "En het";
-            var movies4 = (from m in _context.Movies where m.Title.StartsWith(startTitle) select m).ToList();
-            // SELECT * FROM movies
-            foreach (var movie in _context.Movies)
+            var context = new MoviesContext();
+            var movie = context.Movies.First();
+            var actors = context.Actors.ToList();
+            foreach(var actor in actors)
             {
-                Console.WriteLine(movie.Title);
+                context.MovieActor.Add(new MovieActor { ActorId = actor.Id, MovieId = movie.Id });
             }
+            context.SaveChanges();
+            //actors.ForEach(a => context.MovieActor.Add(new MovieActor { ActorId = a.Id, MovieId = movie.Id }));
+
         }
 
-        private static void AddMovies()
-        {
-            Movie myMovie1 = new Movie { Title = "Hej hej Karlsson", ReleaseDate = DateTime.Now };
-            Movie myMovie2 = new Movie { Title = "Fint Folk i Finkan 3", ReleaseDate = DateTime.Now };
-            List<Movie> myMovies = new List<Movie> { myMovie1, myMovie2 };
-            _context.Movies.AddRange(myMovies);
-            _context.SaveChanges();
-        }
-
-        private static void AddMovie()
-        {
-            Movie myMovie = new Movie();
-            myMovie.Title = "En het potatis";
-            myMovie.ReleaseDate = System.DateTime.Now;
-            
-            _context.Movies.Add(myMovie);
-            _context.SaveChanges();
-        }
     }
 }

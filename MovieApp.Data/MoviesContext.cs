@@ -10,8 +10,9 @@ namespace MovieApp.Data
     {
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<MovieActor> MovieActor { get; set; }
         public DbSet<Quote> Quotes { get; set; }
-        public DbSet<TomatoRating> TomatoRatings { get; set; }
+        public DbSet<TomatoRating> TomatoRating { get; set; }
 
         public static readonly LoggerFactory MovieLoggerFactory
             = new LoggerFactory(new [] {
